@@ -42,7 +42,7 @@
 
     const startNewPostsChecker = async () => {
         try {
-            const response = await fetch('http://65.108.39.161:80/start_new_posts_checker', {
+            const response = await fetch(import.meta.env.VITE_URL+'/start_new_posts_checker', {
                 method: 'GET',
                 headers: {
                     'Authorization': 'Bearer drdre'
@@ -61,7 +61,7 @@
 
     const submitPostRequest = async () => {
         try {
-            const response = await fetch('http://65.108.39.161:80/userid_insert', {
+            const response = await fetch(import.meta.env.VITE_URL+'/userid_insert', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -91,7 +91,7 @@
 
     const startInstances = async () => {
         try {
-            const response = await fetch(`http://65.108.39.161:80/start?instances=${instances}`, {
+            const response = await fetch(import.meta.env.VITE_URL`/start?instances=${instances}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': 'Bearer drdre'
