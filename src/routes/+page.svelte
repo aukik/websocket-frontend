@@ -1,6 +1,6 @@
 <script>
     import { onMount, onDestroy } from 'svelte';
-    import io from 'socket.io-client';
+    // import io from 'socket.io-client';
 
     const userId = Math.floor(Math.random() * 1000000000);
     // @ts-ignore
@@ -16,36 +16,37 @@
     let orderAmount = '';
     let maxPerPost = '';
 
-    onMount(() => {
-        socket = io('localhost:5000');
+    // onMount(() => {
+    //     socket = io('localhost:5000');
 
-        socket.on('connect', () => {
-            console.log('Connected to the server!');
-            // @ts-ignore
-            socket.emit('userId', { message: "I am connected now", userId: userId });
-        });
+    //     socket.on('connect', () => {
+    //         console.log('Connected to the server!');
+    //         // @ts-ignore
+    //         socket.emit('userId', { message: "I am connected now", userId: userId });
+    //     });
 
-        socket.on('user event', (data) => {
-            // @ts-ignore
-            messages = [...messages, data];
-            console.log(data);
-        });
+    //     socket.on('user event', (data) => {
+    //         // @ts-ignore
+    //         messages = [...messages, data];
+    //         console.log(data);
+    //     });
 
-        socket.on('disconnect', () => {
-            console.log('Disconnected from the server!');
-        });
-    });
+    //     socket.on('disconnect', () => {
+    //         console.log('Disconnected from the server!');
+    //     });
+    // });
 
-    onDestroy(() => {
-        // @ts-ignore
-        if (socket) {
-            socket.disconnect();
-        }
-    });
+    // onDestroy(() => {
+    //     // @ts-ignore
+    //     if (socket) {
+    //         socket.disconnect();
+    //     }
+    // });
 
     const sendMessage = () => {
         // @ts-ignore
-        socket.emit('user event', { "message": "I pressed a button", userId: userId });
+        // socket.emit('user event', { "message": "I pressed a button", userId: userId });
+        console.log("socket")
     }
 
     const startNewPostsChecker = async () => {
