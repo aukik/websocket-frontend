@@ -168,10 +168,11 @@
 
 
 <div class="w-full h-full flex flex-row justify-center my-8">
-    <button class="bg-blue-500 text-white border border-black p-2 rounded-lg my-4" on:click={startNewPostsChecker}>New post checker</button>
+    <button class="bg-blue-500 text-white border border-black p-2 rounded-lg my-4" on:click={startNewPostsChecker}>Run new post checker manually</button>
 </div>
 
 <div class="w-full h-full flex flex-col justify-center my-8 form-container">
+    <h1 class="text-2xl font-bold self-center my-2">Add New Premium User</h1>
     <label for="orderId">Order ID:</label>
     <input type="text" id="orderId" bind:value={orderId} class="form-group" />
 
@@ -189,12 +190,13 @@
 
 <!-- New form components -->
 <div class="w-full h-full flex flex-col justify-center my-8 new-form-container">
-    <label for="instances">Instances:</label>
+    <h1 class="text-2xl font-bold self-center my-2">Run Scrapper</h1>
+    <label for="instances">Number of Instances:</label>
     <input type="text" id="instances" bind:value={instances} class="form-group" />
 
     <button on:click={startInstances}>Start Instances</button>
 </div>
 <div class="w-full h-full flex flex-row justify-center my-8">
-    <button style="background-color: red;" class="bg-blue-500 text-white border border-black p-2 rounded-lg my-4" on:click={endCurrentProcess}>End Current Process</button>
+    <button style="background-color: red;" class="bg-blue-500 text-white border border-black p-2 rounded-lg my-4" on:click={endCurrentProcess}>End Scrapping</button>
 </div>
 </div>
