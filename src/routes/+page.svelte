@@ -73,7 +73,7 @@
 
     const endCurrentProcess = async () => {
         try {
-            const response = await fetch('http://65.108.39.161:80/end', {
+            const response = await fetch(import.meta.env.VITE_URL+'/end', {
                 method: 'GET',
                 headers: {
                     'Authorization': 'Bearer drdre'
@@ -127,7 +127,7 @@
 
     const startInstances = async () => {
         try {
-            const response = await fetch(import.meta.env.VITE_URL`/start?instances=${instances}`, {
+            const response = await fetch(import.meta.env.VITE_URL+`/start?instances=${instances}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': 'Bearer drdre'
