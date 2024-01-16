@@ -127,6 +127,7 @@
 
     const startInstances = async () => {
         try {
+            currentState = `Starting ${instances} instances...`
             const response = await fetch(import.meta.env.VITE_URL+`/start?instances=${instances}`, {
                 method: 'GET',
                 headers: {
