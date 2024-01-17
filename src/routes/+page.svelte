@@ -9,6 +9,10 @@
     let messages = [];
     // @ts-ignore
     let currentState = "Waiting...";
+    let numberOfInstances = 0;
+    let isInstancesRunning = false;
+    let isNewUserAdding = false;
+    let isPostCheckingOn = false;
 
     // Fields for the POST request
     let orderId = '';
@@ -42,6 +46,9 @@
     //         socket.disconnect();
     //     }
     // });
+    onMount(() => {
+        startPolling();
+    });
 
     const sendMessage = () => {
         // @ts-ignore
@@ -69,6 +76,39 @@
             console.error('Error:', error);
         }
     }
+
+
+    const checkForState = async () => {
+        try {
+            const response = await fetch(import.meta.env.VITE_URL+'/checkForState', {
+                method: 'GET',
+                headers: {
+                    'Authorization': 'Bearer drdre'
+                },
+            });
+            if (response.ok) {
+                const data = await response.json();
+                // Update variables based on the response
+                numberOfInstances = data.number_of_instances;
+                isInstancesRunning = data.is_instances_on;
+                isNewUserAdding = data.is_new_user_adding_on;
+                isPostCheckingOn = data.is_post_checking_on;
+            } else {
+                console.error('Failed to fetch state.');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
+
+    const startPolling = () => {
+        checkForState(); // Initial call
+        setInterval(checkForState, 30000); // Poll every 30 seconds
+    };
+
+
+
+
 
 
 
@@ -167,10 +207,30 @@
     </div>
 </div>
 
+<div class="w-full h-full flex flex-row justify-center my-8">
+    {#if isInstancesRunning}
+        <div class="flex flex-col justify-center ">
+            <p class="text-2xl font-bold self-center">{numberOfInstances} instances Running!</p>
+        </div>
+    {:else if isNewUserAdding}
+        <div class="flex flex-col justify-center ">
+            <p class="text-2xl font-bold self-center">New User is being added!</p>
+        </div>
+    {:else if isPostCheckingOn}
+        <div class="flex flex-col justify-center ">
+            <p class="text-2xl font-bold self-center">Post checker is on!</p>
+        </div>
+    {:else}
+        <div class="flex flex-col justify-center ">
+            <p class="text-2xl font-bold self-center">No process is Running!</p>
+        </div>
+    {/if}
+</div>
+
 
 
 <div class="w-full h-full flex flex-row justify-center my-8">
-    <button class="bg-blue-500 text-white border border-black p-2 rounded-lg my-4" on:click={startNewPostsChecker}>Run new post checker manually</button>
+    <button class="bg-blue-500 text-white border border-black p-2 rounded-lg my-4" on:click={startNewPostsChecker}>Check Users Posts</button>
 </div>
 
 <div class="w-full h-full flex flex-col justify-center my-8 form-container">
