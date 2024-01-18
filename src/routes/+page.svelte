@@ -20,6 +20,7 @@
     let profileLink = '';
     let orderAmount = '';
     let maxPerPost = '';
+    let comment = false;
 
     let scrapperButtonDisabled = false;
 
@@ -122,6 +123,7 @@
             showMessage();
             return;
         }
+        scrapperButtonDisabled = true;
         try {
             const response = await fetch(import.meta.env.VITE_URL+'/end', {
                 method: 'GET',
@@ -138,6 +140,10 @@
                 console.error('Failed to End the process.');
             }
             showMessage();
+
+
+            scrapperButtonDisabled = false;
+
         } catch (error) {
             console.error('Error:', error);
         }
@@ -145,6 +151,7 @@
 
     const submitPostRequest = async () => {
         try {
+
             const response = await fetch(import.meta.env.VITE_URL+'/userid_insert', {
                 method: 'POST',
                 headers: {
@@ -156,7 +163,7 @@
                     profile_link: profileLink,
                     order_amount: parseInt(orderAmount, 10),
                     max_per_post: parseInt(maxPerPost, 10),
-                    comment: true,
+                    comment: comment,
                 }),
             });
 
@@ -224,6 +231,13 @@
         }, 10000);
 
     }
+
+    let isCommentTrue="False"; // initialize with a default value
+
+  function handleSelectChange(event) {
+    // Update the variable when the selection changes
+    comment = event.target.value === 'True';
+  }
 </script>
 
 <style>
@@ -304,7 +318,7 @@
             <div>
               <h3 class="font-bold text-white">Enter Your Password:</h3>
                 <input type="password" id="password" bind:value={password}  class="bg-slate-50" />
-                <div class="btn btn-accent my-2" on:click={()=>{sessionStorage.setItem('password',password)}}>Submit</div>
+                <div class="btn btn-accent my-2" on:click={()=>{sessionStorage.setItem('password',password); checkForState()}}>Submit</div>
            
             </div>
         
@@ -326,10 +340,12 @@
                 <div class="flex flex-row justify-around my-4">
                     {#if scrapperButtonDisabled==false}
                         <div class="btn btn-success bg-white border border-gray-800 mx-2" on:click={startInstances}>Start Instances</div>
+                        <div class="btn btn-error bg-black border border-gray-300 text-white mx-2" on:click={endCurrentProcess}>End Scrapping</div>
                     {:else}
                         <div class="loading loading-spinner loading-sm"></div>
+                        <div class="loading loading-spinner loading-sm"></div>
                     {/if}
-                    <div class="btn btn-error bg-black border border-gray-300 text-white mx-2" on:click={endCurrentProcess}>End Scrapping</div>
+                   
                     
                     <!-- <button on:click={showMessage}>gg</button> -->
                 </div>
@@ -362,6 +378,15 @@
                 <label class="text-black" for="maxPerPost">Max Per Post:</label>
                 <input type="text" id="maxPerPost" bind:value={maxPerPost} class="bg-slate-50" />
             </div>
+
+            <div class="my-2 flex flex-row">
+                <div class="mx-2 justify-center self-center font-bold text-black" >Comment: </div>
+                <select bind:value={isCommentTrue} class="select select-bordered w-full max-w-xs" on:change={handleSelectChange}>
+                  <option value="True">True</option>
+                  <option value="False">False</option>
+                </select>
+              </div>
+              
             
         
             <div class="btn btn-primary my-2" on:click={submitPostRequest}>Add New User</div>
